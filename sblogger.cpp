@@ -25,25 +25,23 @@
 #include <sqlite3.h>
 #include <fstream>
 using namespace std;
-void driving();
-void gas();
-void other();
+void driving(string, string);
+void gas(string, string);
+void other(string, string);
+void meal(string, string);
 int main()
 {
-    while (true)
-    {
+    cout <<"\nWelcome to the Logger\n"<<endl;
+        cout<< " Please enter the first and last name of the person entering data: ";
+        string namef;
+        string namel;
+        cin>> namef;
+        cin>> namel;
         char line ='-';
         char menu;
-        //getting the time for stamp
-        time_t t;
-        time(&t);
-        cout <<t<<endl;
-        char *curent= ctime(&t);
-        //prepping file openers
-        ifstream indata;
-        ofstream otdata;
+    while (true)
+    {
         cout<<setfill('#')<<setw(75)<<"#"<<endl;
-        cout <<"\nWelcome to the Logger\n"<<endl;
         cout <<"\nEnter 1 to submit gas receipts"<<endl;
         cout <<"\nEnter 2 to submit an entry to driving log"<<endl;
         cout <<"\nEnter 3 to submit other business receipts"<<endl;
@@ -54,19 +52,20 @@ int main()
         switch (menu){
             case '1':
                 //do 1 stuff
-                gas();
+                gas(namef, namel);
                 break;
             case '2':
                 //do 2 stuff
-                driving();
+                driving(namef, namel);
                 break;
             case '3':
                 //do 3 stuff
-                other();
+                other(namef, namel);
                 break;
-            //case '4':
+            case '4':
                 //do 4 stuff
-                //break;
+                meal(namef, namel);
+                break;
             case 'F':
                 //Quit Program 
                 return 0;
@@ -79,7 +78,7 @@ int main()
     }
     return 0;
 }
-void driving()
+void driving(string namef, string namel)
 {
     //getting the time for stamp
     time_t t;
@@ -91,7 +90,7 @@ void driving()
     ofstream otdata;
     otdata.open("log/drivinglog.csv", ios::app);
     cout <<"\nEnter the reason for your trip: ";
-    string reason;
+    char reason[50];
     cin >>reason;
     cout <<"\nEnter the destination for your trip: ";
     string destination;
@@ -103,13 +102,13 @@ void driving()
     string milage;
     cin >>milage;
     otdata <<"\n"<<reason <<","<< start <<","<< destination 
-    <<","<< milage << "," << current;
+    <<","<< milage << "," << ","<< namef << ","<< namel << ","<< current;
     otdata.close();
     return;
 }
-void gas()
+void gas(string namef, string namel)
 {
-    char c;
+    char y1, y2;
     string gas;
     string date;
     //getting the time for stamp
@@ -124,23 +123,38 @@ void gas()
     cout <<"\nEnter the total gas: ";
     cin >> gas;
     cout << "\nIs this from today/right now? enter y/n:";
-    cin >> c;
-    if (c=='y'){
+    cin >> y1;
+    if (y1=='y'){
         date=current;
     }
     else{
         cout << "\nEnter the date on the receipt in MM/DD/YYYY format: ";
         cin >> date;
     }
-    otdata << "\n" << "gas,"<< gas << ","<< date;
+    otdata << "\n" << "gas,"<< gas << ","<< ","<< namef << ","<< namel << ","<< date;
+    cout << "\nWould you like to enter more gas recipts? enter y/n: ";
+    cin >> y2;
+    while (y2=='y'){
+        cout << "\nEnter the date on the receipt in MM/DD/YYYY format: ";
+        cin >> date;
+        cout <<"\nEnter the total gas: ";
+        cin >> gas;
+        otdata << "\n" << "gas,"<< gas << ","<< ","<< namef << ","<< namel << ","<< date;
+        cout << "\nWould you like to enter more gas recipts? enter y/n: ";
+        cin >> y2;
+        
+    }
+    
     otdata.close();
     return;
+    
+    
 }
-void other()
+void other(string namef, string namel)
 {
     char c;
     string item;
-    string reason;
+    char reason[50];
     string total;
     string date;
     //getting the time for stamp
@@ -168,7 +182,43 @@ void other()
     cin >>item;
     cout << "\nEnter the reason for purchase:";
     cin >>reason;
-    otdata << "\n" << item << ","<< total << "," << reason << ","<< date;
+    otdata << "\n" << item << ","<< total << "," << reason << ","<< ","<< namef << ","<< namel << ","<< date;
+    otdata.close();
+    return;
+}
+void meal(string namef, string namel)
+{
+    char c;
+    string item;
+    char reason[50];
+    string total;
+    string date;
+    //getting the time for stamp
+    time_t t;
+    time(&t);
+    char *current= ctime(&t);
+    cout<<setfill('$')<<setw(75)<<"$"<<endl;
+    cout <<"\nWelcome to the Business meal Log";
+    //prepping file openers
+    ofstream otdata;
+    otdata.open("log/otherrec.csv", ios::app);
+    cout <<"\nEnter the total price: ";
+    cin >> total;
+    //knowing actual date
+    cout << "\nIs this from today/right now? enter y/n:";
+    cin >> c;
+    if (c=='y'){
+        date=current;
+    }
+    else{
+        cout << "\nEnter the date on the receipt in MM/DD/YYYY format: ";
+        cin >> date;
+    }
+    cout << "\nEnter the name food vednor/restaurant:";
+    cin >>item;
+    cout << "\nEnter the reason why this was a business meal:";
+    cin >>reason;
+    otdata << "\n" << item << ","<< total << "," << reason << ","<< namef << ","<< namel << ","<<date;
     otdata.close();
     return;
 }
