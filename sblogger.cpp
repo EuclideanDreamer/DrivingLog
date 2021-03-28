@@ -4,7 +4,7 @@
 //* Written by	: Bailey Nichols	*
 //*	* 
 //* Purpose	: This program was developed to keep records on my vehicle 	* 
-//*	  expesnes to file taxes easier. I gave up on this for now. fixing python version	* 
+//*	  expesnes to file taxes easier.	* 
 //*	* 
 //* Inputs          : 1,2,3 to choose menu, then enter trip or receipt data. 	* 
 //*	* 
@@ -12,10 +12,9 @@
 //* Calls           : sends data to log/csvfile.csv	* 
 //*	*
 //*---------------------------------------------------------------------* 
-
 //*	Date	Changed   Rel Ver Mod Purpose	*
 //* 03/27/21 Nichols  001.000.000 Initial release of program	*
-//*	* 
+//*	03/28/21 Nichols  001.100.000* 
 //* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
 //Libreoffice Calc (spreadsheet) data entry with C++
 #include <iostream>
@@ -32,7 +31,7 @@ void meal(string, string);
 int main()
 {
     cout <<"\nWelcome to the Logger\n"<<endl;
-        cout<< " Please enter the first and last name of the person entering data: ";
+        cout<<"Please enter the first and last name of the person entering data: ";
         string namef;
         string namel;
         cin>> namef;
@@ -45,7 +44,7 @@ int main()
         cout <<"\nEnter 1 to submit gas receipts"<<endl;
         cout <<"\nEnter 2 to submit an entry to driving log"<<endl;
         cout <<"\nEnter 3 to submit other business receipts"<<endl;
-        //cout <<"Enter 4 to read data from files"<<endl;
+        cout <<"\nEnter 4 to submit a meal recipt"<<endl;
         cout <<"\nEnter F to exit program"<<endl;
         cin >>menu;
         cout << endl;
@@ -118,6 +117,7 @@ void gas(string namef, string namel)
     cout<<setfill('G')<<setw(75)<<"G"<<endl;
     cout <<"\nWelcome to the Gas Receipt Log";
     //prepping file openers
+    restartgas:
     ofstream otdata;
     otdata.open("log/gasrec.csv", ios::app);
     cout <<"\nEnter the total gas: ";
@@ -135,20 +135,10 @@ void gas(string namef, string namel)
     cout << "\nWould you like to enter more gas recipts? enter y/n: ";
     cin >> y2;
     while (y2=='y'){
-        cout << "\nEnter the date on the receipt in MM/DD/YYYY format: ";
-        cin >> date;
-        cout <<"\nEnter the total gas: ";
-        cin >> gas;
-        otdata << "\n" << "gas,"<< gas << ","<< ","<< namef << ","<< namel << ","<< date;
-        cout << "\nWould you like to enter more gas recipts? enter y/n: ";
-        cin >> y2;
-        
+        goto restartgas;
     }
-    
     otdata.close();
     return;
-    
-    
 }
 void other(string namef, string namel)
 {
@@ -216,9 +206,7 @@ void meal(string namef, string namel)
     }
     cout << "\nEnter the name food vednor/restaurant:";
     cin >>item;
-    cout << "\nEnter the reason why this was a business meal:";
-    cin >>reason;
-    otdata << "\n" << item << ","<< total << "," << reason << ","<< namef << ","<< namel << ","<<date;
+    otdata << "\n" << item << ","<< total << ","<< namef << ","<< namel << ","<<date;
     otdata.close();
     return;
 }
