@@ -4,7 +4,7 @@
 //* Written by	: Bailey Nichols	*
 //*	* 
 //* Purpose	: This program was developed to keep records on my vehicle 	* 
-//*	  expesnes to file taxes easier.	* 
+//*	  expesnes to file taxes easier. I gave up on this for now. fixing python version	* 
 //*	* 
 //* Inputs          : 1,2,3 to choose menu, then enter trip or receipt data. 	* 
 //*	* 
