@@ -15,6 +15,8 @@
 //*	Date	Changed   Rel Ver Mod Purpose	*
 //* 03/27/21 Nichols  001.000.000 Initial release of program	*
 //*	03/28/21 Nichols  001.100.000* 
+//*	03/29/21 Nichols  001.200.000* 
+
 //* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
 //Libreoffice Calc (spreadsheet) data entry with C++
 #include <iostream>
@@ -129,9 +131,9 @@ void gas(string namef, string namel)
     }
     else{
         cout << "\nEnter the date on the receipt in MM/DD/YYYY format: ";
-        cin >> date;
+        getline(cin, date);
     }
-    otdata << "\n" << "gas,"<< gas << ","<< ","<< namef << ","<< namel << ","<< date;
+    otdata << "\n" << "gas,"<< gas << "," << namef << "," << namel << "," << date;
     cout << "\nWould you like to enter more gas recipts? enter y/n: ";
     cin >> y2;
     while (y2=='y'){
@@ -144,7 +146,7 @@ void other(string namef, string namel)
 {
     char c;
     string item;
-    char reason[50];
+    string reason;
     string total;
     string date;
     //getting the time for stamp
@@ -157,7 +159,7 @@ void other(string namef, string namel)
     ofstream otdata;
     otdata.open("log/otherrec.csv", ios::app);
     cout <<"\nEnter the total price: ";
-    cin >> total;
+    getline(cin, item);    
     //knowing actual date
     cout << "\nIs this from today/right now? enter y/n:";
     cin >> c;
@@ -166,13 +168,13 @@ void other(string namef, string namel)
     }
     else{
         cout << "\nEnter the date on the receipt in MM/DD/YYYY format: ";
-        cin >> date;
+        getline(cin, date);
     }
     cout << "\nEnter the name of item purchased:";
     cin >>item;
     cout << "\nEnter the reason for purchase:";
-    cin >>reason;
-    otdata << "\n" << item << ","<< total << "," << reason << ","<< ","<< namef << ","<< namel << ","<< date;
+    getline(cin,reason);
+    otdata << "\n" << item << ","<< total << "," << reason << "," << namef << "," << namel << "," << date;
     otdata.close();
     return;
 }
@@ -180,7 +182,7 @@ void meal(string namef, string namel)
 {
     char c;
     string item;
-    char reason[50];
+    string reason;
     string total;
     string date;
     //getting the time for stamp
@@ -191,7 +193,7 @@ void meal(string namef, string namel)
     cout <<"\nWelcome to the Business meal Log";
     //prepping file openers
     ofstream otdata;
-    otdata.open("log/otherrec.csv", ios::app);
+    otdata.open("log/mealrec.csv", ios::app);
     cout <<"\nEnter the total price: ";
     cin >> total;
     //knowing actual date
@@ -202,10 +204,10 @@ void meal(string namef, string namel)
     }
     else{
         cout << "\nEnter the date on the receipt in MM/DD/YYYY format: ";
-        cin >> date;
+        getline(cin, date);
     }
     cout << "\nEnter the name food vednor/restaurant:";
-    cin >>item;
+    getline(cin, item);    
     otdata << "\n" << item << ","<< total << ","<< namef << ","<< namel << ","<<date;
     otdata.close();
     return;
